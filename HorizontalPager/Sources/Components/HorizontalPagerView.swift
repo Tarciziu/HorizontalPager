@@ -13,7 +13,7 @@ private enum Constants {
 }
 
 /// SwiftUI reusable component capable of displaying a list of items while also providing pagination efect.
-public struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: View>: View {
+public struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: View>: View, Buildable {
   // MARK: - State Properties
 
   @State private var screenDragDistance: CGFloat = .zero
@@ -27,7 +27,7 @@ public struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: Vi
   private let contentBuilder: (Item) -> ContentView
   private let gesture = DragGesture()
   private var spaceBetweenItems: CGFloat
-  private var ratio: CGFloat
+  private var ratio: CGFloat = Constants.defaultItemWidthRatio
 
   // MARK: - Initialization
   
@@ -38,18 +38,15 @@ public struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: Vi
   ///   - spaceBetween: The distance between adjacent subviews, or `nil` if you
   ///     want the pager to choose a default distance for each pair of
   ///     subviews.
-  ///   - itemWidthRatio: Ratio out of available width for an item in the list, or `nil` if you want to choose a default width ratio for the items.
   ///   - contentBuilder: A view builder that creates the content of this pager.
   public init(
     items: [Item],
     selectedItem: Binding<Item>,
     spacing: CGFloat? = nil,
-    itemWidthRatio: CGFloat? = nil,
     @ViewBuilder contentBuilder: @escaping (Item) -> ContentView
   ) {
     self.items = items
     self._selectedItem = selectedItem
-    self.ratio = itemWidthRatio ?? Constants.defaultItemWidthRatio
     self.spaceBetweenItems = spacing ?? Constants.defaultSpacing
     self.contentBuilder = contentBuilder
   }
@@ -178,5 +175,14 @@ public struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: Vi
     : activeOffset
 
     return resultedOffset
+  }
+}
+
+extension HorizontalPagerView {
+  /// Sets width of the item as a percentage (ratio) of the available width.
+  /// - Parameter ratio: Ratio out of available width for an item in the list, or `nil` if you want to choose a default width ratio for the items.
+  /// - Returns: An updated ``HorizontalPagerView``.
+  public func selectedItemWidthRatio(_ ratio: CGFloat) -> Self {
+    mutating(keyPath: \.ratio, value: ratio)
   }
 }

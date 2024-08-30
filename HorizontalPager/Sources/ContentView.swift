@@ -35,8 +35,7 @@ struct ContentView: View {
     HorizontalPagerView(
       items: items,
       selectedItem: $selectedCard,
-      spacing: 20,
-      itemWidthRatio: 0.7
+      spacing: 20
     ) { item in
       Text(item.name)
         .frame(maxWidth: .infinity)
@@ -46,6 +45,7 @@ struct ContentView: View {
         .scaleEffect(y: selectedCard.id == item.id ? 1.0 : 0.8)
         .cornerRadius(12)
     }
+    .selectedItemWidthRatio(0.8)
   }
 }
 

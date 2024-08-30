@@ -49,14 +49,13 @@ HorizontalPagerView(
 
 ### UI Customization
 
-`HorizontalPagerView` can be customized by using `spacing` and `itemWidthRatio` parameters in order to increase the space between two items in the list or to increase or decrease the size of an item view.
+`HorizontalPagerView` can be customized by using `spacing` parameters in order to increase the space between two items in the list.
 
 ```swift
 HorizontalPagerView(
   items: items,
   selectedItem: $selectedCard
-  spacing: 20,
-  itemWidthRatio: 0.7
+  spacing: 20
 ) { item in
   Text(item.name)
     .frame(maxWidth: .infinity)
@@ -66,6 +65,25 @@ HorizontalPagerView(
     .scaleEffect(y: selectedCard.id == item.id ? 1.0 : 0.8)
     .cornerRadius(12)
 }
+```
+
+Also, `selectedItemWidthRatio` modifier can be used in order to change the width of a card item from the list relative to the available width.
+
+```swift
+HorizontalPagerView(
+  items: items,
+  selectedItem: $selectedCard
+  spacing: 20
+) { item in
+  Text(item.name)
+    .frame(maxWidth: .infinity)
+    .padding(.horizontal, 16)
+    .padding(.vertical, 12)
+    .background(.red)
+    .scaleEffect(y: selectedCard.id == item.id ? 1.0 : 0.8)
+    .cornerRadius(12)
+}
+  .selectedItemWidthRatio(0.7)
 ```
 
 ![](Images/customization.png)
