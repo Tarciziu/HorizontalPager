@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-/// https://gist.github.com/mecid/e0d4d6652ccc8b5737449a01ee8cbc6f
-struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: View>: View {
-  // MARK: - Nested Types
+private enum Constants {
+  static let defaultItemWidthRatio: CGFloat = 0.8
+  static let defaultSpacing: CGFloat = 10
+}
 
-  typealias ContentBuilder = (Item) -> ContentView
-
+/// SwiftUI reusable component capable of displaying a list of items while also providing pagination efect.
+public struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: View>: View {
   // MARK: - State Properties
 
   @State private var screenDragDistance: CGFloat = .zero
@@ -23,26 +24,39 @@ struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: View>: Vi
   // MARK: - Private Properties
 
   private let items: [Item]
-  private let contentBuilder: ContentBuilder
+  private let contentBuilder: (Item) -> ContentView
   private let gesture = DragGesture()
-  private var spaceBetweenItems: CGFloat = 10
-  private var ratio: CGFloat = 0.8
+  private var spaceBetweenItems: CGFloat
+  private var ratio: CGFloat
 
   // MARK: - Initialization
-
-  init(
+  
+  /// Initializes a new `HorizontalPagerView`.
+  /// - Parameters:
+  ///   - items: A list of ``Hashable`` & ``Identifiable`` items to be displayed.
+  ///   - selectedItem: Binding of the selected item from the list.
+  ///   - spaceBetween: The distance between adjacent subviews, or `nil` if you
+  ///     want the pager to choose a default distance for each pair of
+  ///     subviews.
+  ///   - itemWidthRatio: Ratio out of available width for an item in the list, or `nil` if you want to choose a default width ratio for the items.
+  ///   - contentBuilder: A view builder that creates the content of this pager.
+  public init(
     items: [Item],
     selectedItem: Binding<Item>,
-    @ViewBuilder contentBuilder: @escaping ContentBuilder
+    spacing: CGFloat? = nil,
+    itemWidthRatio: CGFloat? = nil,
+    @ViewBuilder contentBuilder: @escaping (Item) -> ContentView
   ) {
     self.items = items
     self._selectedItem = selectedItem
+    self.ratio = itemWidthRatio ?? Constants.defaultItemWidthRatio
+    self.spaceBetweenItems = spacing ?? Constants.defaultSpacing
     self.contentBuilder = contentBuilder
   }
 
   // MARK: - Body
 
-  var body: some View {
+  public var body: some View {
     if #available(iOS 17.0, *) {
       scrollingCarousel
     } else {

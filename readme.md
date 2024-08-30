@@ -25,31 +25,48 @@ This is an improved version of a solution posted by [mecid](https://gist.github.
 
 ### Initialization
 
-Creating a `HorizontalPagerView` can be done easy by providing only 3 parameters:
+Creating a `HorizontalPagerView` can be done easy by providing at least 3 parameters:
 - `items` which is an array of Hashable & Equatable conforming entities
 - `selectedItem` which is the centered item
 - `contentBuilder` which is a `@escaping` `ViewBuilder` which takes an item and builds its view
 
 ```swift
 HorizontalPagerView(
-    items: items,
-    selectedItem: $selectedCard
+  items: items,
+  selectedItem: $selectedCard
 ) { item in
-    Text(item.name)
-      .frame(maxWidth: .infinity)
-      .padding(.horizontal, 16)
-      .padding(.vertical, 12)
-      .background(.red)
-      .scaleEffect(y: selectedCard.id == item.id ? 1.0 : 0.8)
-      .cornerRadius(12)
+  Text(item.name)
+    .frame(maxWidth: .infinity)
+    .padding(.horizontal, 16)
+    .padding(.vertical, 12)
+    .background(.red)
+    .scaleEffect(y: selectedCard.id == item.id ? 1.0 : 0.8)
+    .cornerRadius(12)
 }
 ```
 
 ### UI Customization
 
-`HorizontalPagerView` is currently limiting the size of the displayed item at 80% (0.8) of the available width. This will be updated later in order to let it be set from outside.
+`HorizontalPagerView` can be customized by using `spacing` and `itemWidthRatio` parameters in order to increase the space between two items in the list or to increase or decrease the size of an item view.
 
-In addition to that, the space between 2 cards will be customizable in future.
+```swift
+HorizontalPagerView(
+  items: items,
+  selectedItem: $selectedCard
+  spacing: 20,
+  itemWidthRatio: 0.7
+) { item in
+  Text(item.name)
+    .frame(maxWidth: .infinity)
+    .padding(.horizontal, 16)
+    .padding(.vertical, 12)
+    .background(.red)
+    .scaleEffect(y: selectedCard.id == item.id ? 1.0 : 0.8)
+    .cornerRadius(12)
+}
+```
+
+![](Images/customization.png)
 
 ## License
 

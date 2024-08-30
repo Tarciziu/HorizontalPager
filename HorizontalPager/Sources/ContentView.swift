@@ -16,6 +16,7 @@ struct ContentView: View {
   ]
 
   @State private var selectedCard = Card(id: "1", name: "1")
+  @State private var text = String()
 
   // MARK: - Body
 
@@ -33,7 +34,9 @@ struct ContentView: View {
   private var carousel: some View {
     HorizontalPagerView(
       items: items,
-      selectedItem: $selectedCard
+      selectedItem: $selectedCard,
+      spacing: 20,
+      itemWidthRatio: 0.7
     ) { item in
       Text(item.name)
         .frame(maxWidth: .infinity)
