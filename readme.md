@@ -10,6 +10,8 @@ This is an improved version of a solution posted by [mecid](https://gist.github.
 - [Requirements](#requirements)  
 - [Showcase](#showcase)
 - [Usage](#usage)
+    - [Initialization](#initialization)
+    - [UI Customization](#ui-customization)
 - [License](#license)
 
 ## Requirements
