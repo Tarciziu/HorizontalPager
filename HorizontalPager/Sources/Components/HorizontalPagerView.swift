@@ -52,6 +52,7 @@ struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: View>: Vi
 
   // MARK: - Subviews
 
+  @available(iOS 17.0, *)
   private var scrollingCarousel: some View {
     GeometryReader { proxy in
       let itemWidth = calculateItemWidth(availableWidth: proxy.size.width)

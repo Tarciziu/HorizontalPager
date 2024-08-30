@@ -20,11 +20,9 @@ struct ContentView: View {
   // MARK: - Body
 
   var body: some View {
-    VStack {
+    VStack(spacing: .zero) {
       Spacer()
-
       carousel
-
       Spacer()
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
