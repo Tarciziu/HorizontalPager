@@ -18,6 +18,7 @@ public struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: Vi
 
   @State private var screenDragDistance: CGFloat = .zero
   @State private var screenHeight: CGFloat = .zero
+  @State private var screenWidth: CGFloat = .zero
   @Binding private var selectedItem: Item
   @GestureState private var translation: CGFloat = .zero
 
@@ -64,25 +65,27 @@ public struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: Vi
   // MARK: - Subviews
 
   @available(iOS 17.0, *)
-  private var scrollingCarousel: some View {
-    GeometryReader { proxy in
-      let itemWidth = calculateItemWidth(availableWidth: proxy.size.width)
-      ScrollView(.horizontal, showsIndicators: false) {
-        LazyHStack(spacing: spaceBetweenItems) {
-          ForEach(items) { item in
-            contentBuilder(item)
-              .frame(width: itemWidth)
-              .id(item)
-          }
+  @ViewBuilder private var scrollingCarousel: some View {
+    let itemWidth = calculateItemWidth(availableWidth: screenWidth)
+    ScrollView(.horizontal, showsIndicators: false) {
+      LazyHStack(spacing: spaceBetweenItems) {
+        ForEach(items) { item in
+          contentBuilder(item)
+            .frame(width: itemWidth)
+            .id(item)
         }
-        .scrollTargetLayout()
       }
-      .scrollTargetBehavior(.viewAligned)
-      .scrollIndicators(.hidden)
-      .scrollPosition(id: Binding($selectedItem), anchor: .center)
-      .animation(.smooth, value: selectedItem)
-      .contentMargins(.horizontal, (proxy.size.width - itemWidth) / 2, for: .scrollContent)
+      .frame(maxWidth: .infinity)
+      .scrollTargetLayout()
     }
+    .readSize { size in
+      screenWidth = size.width
+    }
+    .scrollTargetBehavior(.viewAligned)
+    .scrollIndicators(.hidden)
+    .scrollPosition(id: Binding($selectedItem), anchor: .center)
+    .animation(.smooth, value: selectedItem)
+    .contentMargins(.horizontal, (screenWidth - itemWidth) / 2, for: .scrollContent)
   }
 
   private var itemsCarousel: some View {
@@ -123,14 +126,9 @@ public struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: Vi
               }
             }
         )
-        .background(
-          GeometryReader { proxy in
-            Color.clear
-              .onAppear {
-                screenHeight = proxy.size.height
-              }
-          }
-        )
+        .readSize { size in
+          screenHeight = size.height
+        }
         .frame(maxHeight: screenHeight)
     }
   }
