@@ -67,7 +67,7 @@ HorizontalPagerView(
 }
 ```
 
-Also, `selectedItemWidthRatio` modifier can be used in order to change the width of a card item from the list relative to the available width.
+Also, `itemWidthRatio` modifier can be used in order to change the width of a card item from the list relative to the available width.
 
 ```swift
 HorizontalPagerView(
@@ -83,7 +83,7 @@ HorizontalPagerView(
     .scaleEffect(y: selectedCard.id == item.id ? 1.0 : 0.8)
     .cornerRadius(12)
 }
-  .selectedItemWidthRatio(0.7)
+  .itemWidthRatio(0.7)
 ```
 
 ![](Images/customization.png)

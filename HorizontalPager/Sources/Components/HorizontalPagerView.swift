@@ -36,7 +36,7 @@ public struct HorizontalPagerView<Item: Hashable & Identifiable, ContentView: Vi
   /// - Parameters:
   ///   - items: A list of ``Hashable`` & ``Identifiable`` items to be displayed.
   ///   - selectedItem: Binding of the selected item from the list.
-  ///   - spaceBetween: The distance between adjacent subviews, or `nil` if you
+  ///   - spacing: The distance between adjacent subviews, or `nil` if you
   ///     want the pager to choose a default distance for each pair of
   ///     subviews.
   ///   - contentBuilder: A view builder that creates the content of this pager.
@@ -180,7 +180,7 @@ extension HorizontalPagerView {
   /// Sets width of the item as a percentage (ratio) of the available width.
   /// - Parameter ratio: Ratio out of available width for an item in the list, or `nil` if you want to choose a default width ratio for the items.
   /// - Returns: An updated ``HorizontalPagerView``.
-  public func selectedItemWidthRatio(_ ratio: CGFloat) -> Self {
+  public func itemWidthRatio(_ ratio: CGFloat) -> Self {
     mutating(keyPath: \.ratio, value: ratio)
   }
 }

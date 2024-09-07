@@ -45,7 +45,7 @@ struct ContentView: View {
         .scaleEffect(y: selectedCard.id == item.id ? 1.0 : 0.8)
         .cornerRadius(12)
     }
-    .selectedItemWidthRatio(0.8)
+    .itemWidthRatio(0.8)
   }
 }
 
